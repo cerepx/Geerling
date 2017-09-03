@@ -1,2 +1,1 @@
-# Geerling
-# Geerling
+# Ansible from Geerling's Book
