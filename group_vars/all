@@ -1,0 +1,2 @@
+#filename: group_vars/all
+domain: "drupaltest"

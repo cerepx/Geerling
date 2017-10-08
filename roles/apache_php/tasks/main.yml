@@ -20,6 +20,7 @@
   apt: name={{ item }} state=present
   with_items:
      - python-apt
+     - python-pycurl
     
 - name: Add ondrej repository for later versions of PHP
   apt_repository: repo='ppa:ondrej/php' update_cache=yes
@@ -41,8 +42,6 @@
     - php5-mcrypt
     - php-apc
     - php-pear
-    - python-mysqldb
-    - mysql-server
 
 - name: Disable the firewall (for testing)
   service: name=ufw state=stopped

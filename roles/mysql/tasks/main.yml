@@ -1,0 +1,14 @@
+---
+# This is Mysql role main playbook
+
+- name: Get software for apt repository management
+  apt: name={{ item }} state=present
+  with_items:
+    - python-mysqldb
+    - mysql-server
+
+- name: Remove the mysql test database
+  mysql_db: db=test state=absent
+
+- name: Create a database for Drupal
+  mysql_db: "db={{ domain }} state=present"
