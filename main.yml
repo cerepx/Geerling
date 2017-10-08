@@ -1,7 +1,7 @@
 ---
 # main.yml : This is main playbook
 
-- import_playbook: nodejs.yml
-- import_playbook: apache_php.yml
+#- import_playbook: nodejs.yml
 - import_playbook: mysql.yml
+- import_playbook: apache_php.yml
 - import_playbook: drupal.yml
