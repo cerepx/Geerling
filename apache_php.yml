@@ -1,0 +1,15 @@
+---
+# apache_php.yml : playbook for LAMP server
+
+- hosts: lamp
+  remote_user: vagrant
+  become: yes
+  
+  pre_tasks:
+    - shell: echo 'I ":" Beginning to configure LAMP server...'
+  
+  roles: 
+    - role: apache_php
+  
+  post_tasks:
+    - shell: echo 'I ":" Done configuring LAMP server!'

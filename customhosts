@@ -45,6 +45,7 @@
 [app]
 192.168.56.44
 192.168.56.45
+192.168.56.47
 
 # Database server
 [db]
@@ -63,3 +64,7 @@ ansible_ssh_private_key_file=~/.ssh/id_rsa
 # node.js
 [node.js]
 192.168.56.44
+
+# lamp nodes
+[lamp]
+192.168.56.47
