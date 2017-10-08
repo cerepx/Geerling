@@ -1,0 +1,4 @@
+---
+# tasks file for Drush and Drupal
+ - import_tasks: drush.yml
+ - import_tasks: drupal.yml
