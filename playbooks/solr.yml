@@ -1,0 +1,15 @@
+---
+# solr.yml : playbook for search servers
+
+- hosts: solr
+  remote_user: vagrant
+  become: yes
+  
+  pre_tasks:
+    - shell: echo 'I ":" Beginning to configure SOLR server...'
+  
+  roles: 
+    - { role: solr, when: ansible_os_family == 'Debian' }
+  
+  post_tasks:
+    - shell: echo 'I ":" Done configuring SOLR server!'

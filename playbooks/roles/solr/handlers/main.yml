@@ -1,0 +1,4 @@
+---
+# This is file handler for tomcat 
+- name: restart tomcat
+  service: name=tomcat7 state=restarted

@@ -1,0 +1,55 @@
+---
+# This is main.yml file for installing Solr
+
+- name: Update apt cache if needed
+  apt: update_cache=yes cache_valid_time=3600
+
+- name: Install Tomcat 7
+  apt: "name={{ item }} state=present"
+  with_items: 
+    - tomcat7
+    - tomcat7-admin
+
+- name: Ensure Tomcat 7 is started and enabled on boot
+  service: name=tomcat7 state=started enables=yes
+
+- name: Download Solr
+  get_url:
+    url: "https://archive.apache.org/dist/lucene/solr/{{ solr_version }}/solr-{{ solr_version }}.tgz"
+    dest: "{{ download_dir }}/solr-{{ solr_version }}.tgz"
+    checksum: "{{ solr_checksum }}"
+
+- name: Expand Solr
+  command: >
+    tar -C /tmp -xvzf "{{ download_dir }}/solr-{{ solr_version }}.tgz"
+  creates={{ download_dir }}/solr-{{ solr_version }}/dist/solr-{{ solr_version }}.war
+
+- name: Copy Solr into place
+  command: >
+    cp -r {{ download_dir }}/solr-{{ solr_version }} {{solr_dir}}
+  creates={{solr_dir}}/dist/solr-{{ solr_version }}.war
+
+# Use shell so commands are passed in correctly
+- name: Copy Solr components into place
+  shell: >
+    cp -r {{ item.src }} {{ item.dst }}
+    creates={{ item.creates }}
+  with_items:
+    # Solr example configuration and war file
+    - src: " {{ solr_dir }}/example/webapps/solr.war"
+      dest: " {{ solr_dir }}/solr.war"
+      creates: " {{ solr_dir }}/solr.war"
+  
+    - src: " {{ solr_dir }}/example/solr/*"
+      dest: " {{ solr_dir }}/"
+      creates: " {{ solr_dir }}/solr.xml"
+
+    # Solr log4j logging configuration
+    - src: " {{ solr_dir }}/example/lib/ext/*"
+      dest: "/var/lib/tomcat7/shared/"
+      creates: "var/lib/tomcat7/shared/log4j-1.2.16.jar"
+
+    - src: " {{ solr_dir }}/example/resources/log4j.properties"
+      dest: "/var/lib/tomcat7/shared/classes"
+      creates: "/var/lib/tomcat7/shared/classes/log4j.properties"
+      notify: restart tomcat
