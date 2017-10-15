@@ -68,3 +68,7 @@ ansible_ssh_private_key_file=~/.ssh/id_rsa
 # lamp nodes
 [lamp]
 192.168.56.47
+
+# solr
+[solr]
+192.168.56.47
